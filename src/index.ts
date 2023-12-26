@@ -457,6 +457,8 @@ export default class Ansi {
             }
           }
           break;
+        case 39:
+          style.color = null;
         case 49:
           style.background = null;
           break;
