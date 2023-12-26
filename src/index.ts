@@ -30,6 +30,12 @@ export default class Ansi {
   private colors256: AnsiColor[];
   private colors16: AnsiColor[][];
 
+  /**
+   * @public
+   * @constructor
+   * @description Constructor for the Ansi class.
+   * @param theme The theme object containing color values.
+   */
   public constructor(theme: Theme = {}) {
     const colors16: AnsiColor[][] = [
       // Colors 16 bit
@@ -106,6 +112,11 @@ export default class Ansi {
     this.colors256 = colors256;
   }
 
+  /**
+   * @private
+   * @description Read the next ANSI token from the buffer.
+   * @returns The next ANSI token.
+   */
   private read(): AnsiToken {
     const { buffer } = this;
     const { length } = buffer;
@@ -327,6 +338,10 @@ export default class Ansi {
     };
   }
 
+  /**
+   * @private
+   * @description Resets the style properties of the element.
+   */
   private reset(): void {
     const { style } = this;
 
@@ -342,6 +357,11 @@ export default class Ansi {
     style.strikethrough = false;
   }
 
+  /**
+   * @private
+   * @description Process the given signal and update the style accordingly.
+   * @param signal The signal to process.
+   */
   private process(signal: string): void {
     let index = 0;
 
@@ -486,6 +506,12 @@ export default class Ansi {
     }
   }
 
+  /**
+   * @private
+   * @description Creates an AnsiBlock object based on the given BlockToken.
+   * @param token The BlockToken to create the AnsiBlock from.
+   * @returns The created AnsiBlock.
+   */
   private block(token: BlockToken): AnsiBlock {
     const block: AnsiBlock = {
       value: token.value,
@@ -499,6 +525,12 @@ export default class Ansi {
     return block;
   }
 
+  /**
+   * @public
+   * @description Writes the given text to the buffer and processes it.
+   * @param text The text to be written.
+   * @param callback The callback function to be called for each processed AnsiBlock.
+   */
   public write(text: string, callback: (block: AnsiBlock) => void): void {
     this.buffer += text;
 
@@ -525,6 +557,11 @@ export default class Ansi {
     }
   }
 
+  /**
+   * @public
+   * @description Flushes the buffer and calls the provided callback function with the flushed block.
+   * @param callback The callback function to be called with the flushed block.
+   */
   public flush(callback: (block: AnsiBlock) => void): void {
     const { buffer } = this;
 
