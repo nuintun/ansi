@@ -459,6 +459,7 @@ export default class Ansi {
           break;
         case 39:
           style.color = null;
+          break;
         case 49:
           style.background = null;
           break;
