@@ -559,8 +559,8 @@ export default class Ansi {
 
   /**
    * @public
-   * @description Flushes the buffer and calls the provided callback function with the flushed block.
-   * @param callback The callback function to be called with the flushed block.
+   * @description Flushes the buffer and invokes the callback with the flushed block.
+   * @param callback - The callback function to invoke with the flushed block.
    */
   public flush(callback: (block: AnsiBlock) => void): void {
     const { buffer } = this;
