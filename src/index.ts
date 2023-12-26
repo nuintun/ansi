@@ -420,6 +420,7 @@ export default class Ansi {
           // validate that param exists
           if (index < maxIndex) {
             const mode = read();
+
             // Extend color (38=fg, 48=bg)
             const isForeground = code === 38;
 
@@ -430,6 +431,7 @@ export default class Ansi {
                   const r = toUint8(read());
                   const g = toUint8(read());
                   const b = toUint8(read());
+
                   // True Color
                   const color: AnsiColor = [r, g, b];
 
