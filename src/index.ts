@@ -10,9 +10,9 @@ import { AnsiBlock, AnsiColor, AnsiStyle, AnsiToken, BlockToken, Theme } from '.
 export type { AnsiBlock, AnsiColor, AnsiStyle, Theme };
 
 export default class Ansi {
-  private buffer = '';
+  #buffer = '';
 
-  private style: AnsiStyle = {
+  #style: AnsiStyle = {
     dim: false,
     bold: false,
     color: null,
@@ -26,8 +26,8 @@ export default class Ansi {
     strikethrough: false
   };
 
-  private colors256: AnsiColor[];
-  private colors16: AnsiColor[][];
+  #colors256: AnsiColor[];
+  #colors16: AnsiColor[][];
 
   /**
    * @public
@@ -35,7 +35,7 @@ export default class Ansi {
    * @description Constructor for the Ansi class.
    * @param theme The theme object containing color values.
    */
-  public constructor(theme: Theme = {}) {
+  constructor(theme: Theme = {}) {
     const colors16: AnsiColor[][] = [
       // Colors 16 bit
       [
@@ -107,8 +107,8 @@ export default class Ansi {
     }
 
     // Init ANSI colors
-    this.colors16 = colors16;
-    this.colors256 = colors256;
+    this.#colors16 = colors16;
+    this.#colors256 = colors256;
   }
 
   /**
@@ -116,8 +116,8 @@ export default class Ansi {
    * @description Read the next ANSI token from the buffer.
    * @returns The next ANSI token.
    */
-  private read(): AnsiToken {
-    const { buffer } = this;
+  #read(): AnsiToken {
+    const buffer = this.#buffer;
     const { length } = buffer;
 
     // Nothing in buffer
@@ -132,7 +132,7 @@ export default class Ansi {
 
     // The most common case, no ESC codes
     if (pos < 0) {
-      this.buffer = '';
+      this.#buffer = '';
 
       return {
         value: buffer,
@@ -141,7 +141,7 @@ export default class Ansi {
     }
 
     if (pos > 0) {
-      this.buffer = buffer.slice(pos);
+      this.#buffer = buffer.slice(pos);
 
       return {
         type: TokenType.TEXT,
@@ -162,7 +162,7 @@ export default class Ansi {
     // We treat this as a single ESC
     // Which effecitvely shows
     if (peek !== '[' && peek !== ']' && peek !== '(') {
-      this.buffer = buffer.slice(1);
+      this.#buffer = buffer.slice(1);
 
       // DeMorgan
       return {
@@ -209,7 +209,7 @@ export default class Ansi {
       // 3 - command
       // 4 - illegal char
       if (match[4]) {
-        this.buffer = buffer.slice(1);
+        this.#buffer = buffer.slice(1);
 
         // Illegal sequence, just remove the ESC
         return {
@@ -217,7 +217,7 @@ export default class Ansi {
         };
       }
 
-      this.buffer = buffer.slice(match[0].length);
+      this.#buffer = buffer.slice(match[0].length);
 
       // If not a valid SGR, we don't handle
       if (match[1] !== '' || match[3] !== 'm') {
@@ -241,7 +241,7 @@ export default class Ansi {
       }
 
       if (buffer.charAt(2) !== '8' || buffer.charAt(3) !== ';') {
-        this.buffer = buffer.slice(1);
+        this.#buffer = buffer.slice(1);
 
         // This is not a match, so we'll just treat it as ESC
         return {
@@ -296,7 +296,7 @@ export default class Ansi {
 
         // If an illegal character was found, bail on the match
         if (match[3]) {
-          this.buffer = buffer.slice(1);
+          this.#buffer = buffer.slice(1);
 
           // Illegal sequence, just remove the ESC
           return {
@@ -310,7 +310,7 @@ export default class Ansi {
       const match = buffer.match(OSC_RE);
 
       if (match === null) {
-        this.buffer = buffer.slice(1);
+        this.#buffer = buffer.slice(1);
 
         // Illegal sequence, just remove the ESC
         return {
@@ -318,7 +318,7 @@ export default class Ansi {
         };
       }
 
-      this.buffer = buffer.slice(match[0].length);
+      this.#buffer = buffer.slice(match[0].length);
 
       // If a valid SGR
       // match is an array
@@ -341,8 +341,8 @@ export default class Ansi {
    * @private
    * @description Resets the style properties of the element.
    */
-  private reset(): void {
-    const { style } = this;
+  #reset(): void {
+    const style = this.#style;
 
     style.dim = false;
     style.bold = false;
@@ -361,15 +361,17 @@ export default class Ansi {
    * @description Process the given signal and update the style accordingly.
    * @param signal The signal to process.
    */
-  private process(signal: string): void {
+  #process(signal: string): void {
     let index = 0;
+
+    // ANSI style and colors
+    const style = this.#style;
+    const colors16 = this.#colors16;
+    const colors256 = this.#colors256;
 
     // Ok - we have a valid "SGR" (Select Graphic Rendition)
     const sequences = signal.split(';');
     const maxIndex = sequences.length - 1;
-
-    // ANSI style and colors
-    const { style, colors16, colors256 } = this;
 
     // Read cmd by index
     const read = () => parseInt(sequences[index++], 10);
@@ -382,7 +384,7 @@ export default class Ansi {
 
       switch (code) {
         case 0:
-          this.reset();
+          this.#reset();
           break;
         case 1:
           style.bold = true;
@@ -511,10 +513,10 @@ export default class Ansi {
    * @param token The BlockToken to create the AnsiBlock from.
    * @returns The created AnsiBlock.
    */
-  private block(token: BlockToken): AnsiBlock {
+  #block(token: BlockToken): AnsiBlock {
     const block: AnsiBlock = {
       value: token.value,
-      style: { ...this.style }
+      style: { ...this.#style }
     };
 
     if ('url' in token) {
@@ -531,10 +533,10 @@ export default class Ansi {
    * @param callback The callback function to be called for each processed AnsiBlock.
    */
   public write(text: string, callback: (block: AnsiBlock) => void): void {
-    this.buffer += text;
+    this.#buffer += text;
 
-    while (this.buffer) {
-      const token = this.read();
+    while (this.#buffer) {
+      const token = this.#read();
 
       switch (token.type) {
         case TokenType.EOS:
@@ -544,11 +546,11 @@ export default class Ansi {
         case TokenType.UNKNOWN:
           continue;
         case TokenType.SGR:
-          this.process(token.signal);
+          this.#process(token.signal);
           continue;
         case TokenType.OSC:
         case TokenType.TEXT:
-          callback(this.block(token));
+          callback(this.#block(token));
           continue;
         default:
           continue;
@@ -562,12 +564,12 @@ export default class Ansi {
    * @param callback - The callback function to invoke with the flushed block.
    */
   public flush(callback: (block: AnsiBlock) => void): void {
-    const { buffer } = this;
+    const buffer = this.#buffer;
 
     // Get flush block
     if (buffer !== '') {
       callback(
-        this.block({
+        this.#block({
           value: buffer,
           type: TokenType.TEXT
         })
@@ -575,9 +577,9 @@ export default class Ansi {
     }
 
     // Reset
-    this.reset();
+    this.#reset();
 
     // Flush buffer
-    this.buffer = '';
+    this.#buffer = '';
   }
 }
