@@ -108,3 +108,7 @@ export function ansiToHTML(text, theme) {
 
   return html;
 }
+
+const message = '[\u001b[38;2;92;157;255;1;4m@nuintun/ansi\u001b[0m]';
+
+console.log(ansiToHTML(message));
