@@ -1,6 +1,5 @@
 /**
  * @module index
- * @see https://github.com/drudru/ansi_up
  */
 
 import { TokenType } from './enum';
