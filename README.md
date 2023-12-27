@@ -204,7 +204,7 @@ export function ansiToHTML(text: string, theme?: Theme): string {
 
 ### References
 
-[drudru/ansi_up](https://github.com/drudru/ansi_up)
+Optimized and modified by [drudru/ansi_up](https://github.com/drudru/ansi_up)
 
 [npm-image]: https://img.shields.io/npm/v/@nuintun/ansi?style=flat-square
 [npm-url]: https://www.npmjs.org/package/@nuintun/ansi
