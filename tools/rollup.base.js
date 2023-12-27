@@ -3,7 +3,6 @@
  */
 
 import { createRequire } from 'module';
-import replace from '@rollup/plugin-replace';
 import treeShake from './plugins/tree-shake.js';
 import typescript from '@rollup/plugin-typescript';
 
@@ -18,19 +17,6 @@ const banner = `/**
  * @see ${pkg.homepage}
  */
 `;
-
-/**
- * @function env
- * @return {import('rollup').Plugin}
- */
-function env() {
-  return replace({
-    preventAssignment: true,
-    values: {
-      __DEV__: `process.env.NODE_ENV !== 'production'`
-    }
-  });
-}
 
 /**
  * @function rollup
@@ -51,7 +37,7 @@ export default function rollup(esnext) {
       entryFileNames: `[name].${esnext ? 'js' : 'cjs'}`,
       chunkFileNames: `[name].${esnext ? 'js' : 'cjs'}`
     },
-    plugins: [env(), typescript(), treeShake()],
+    plugins: [typescript(), treeShake()],
     onwarn(error, warn) {
       if (error.code !== 'CIRCULAR_DEPENDENCY') {
         warn(error);

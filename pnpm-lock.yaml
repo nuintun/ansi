@@ -10,9 +10,6 @@ dependencies:
     version: 2.6.2
 
 devDependencies:
-  '@rollup/plugin-replace':
-    specifier: ^5.0.5
-    version: 5.0.5(rollup@4.9.1)
   '@rollup/plugin-typescript':
     specifier: ^11.1.5
     version: 11.1.5(rollup@4.9.1)(tslib@2.6.2)(typescript@5.3.3)
@@ -80,20 +77,6 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
-
-  /@rollup/plugin-replace@5.0.5(rollup@4.9.1):
-    resolution: {integrity: sha512-rYO4fOi8lMaTg/z5Jb+hKnrHHVn8j2lwkqwyS4kTRhKyWOLf2wST2sWXr4WzWiTcoHTp2sTjqUbqIj2E39slKQ==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.9.1)
-      magic-string: 0.30.5
-      rollup: 4.9.1
-    dev: true
 
   /@rollup/plugin-typescript@11.1.5(rollup@4.9.1)(tslib@2.6.2)(typescript@5.3.3):
     resolution: {integrity: sha512-rnMHrGBB0IUEv69Q8/JGRD/n4/n6b3nfpufUu26axhUcboUzv/twfZU8fIBbTOphRAe0v8EyxzeDpKXqGHfyDA==}

@@ -56,7 +56,6 @@
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir types && node tools/fix-types.js"
   },
   "devDependencies": {
-    "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-typescript": "^11.1.5",
     "magic-string": "^0.30.5",
     "prettier": "^3.1.1",
