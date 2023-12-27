@@ -127,6 +127,5 @@ for (let i = 0; i <= 255; i++) {
   }
 }
 
-process.stdout.write(message);
-process.stdout.write('\n\n');
-process.stdout.write(ansiToHTML(message));
+console.log(message);
+console.log(ansiToHTML(message));
