@@ -109,6 +109,24 @@ export function ansiToHTML(text, theme) {
   return html;
 }
 
-const message = '[\u001b[38;2;92;157;255;1;4m@nuintun/ansi\u001b[0m]';
+let message = '';
 
-console.log(ansiToHTML(message));
+for (let i = 0; i <= 255; i++) {
+  const code = i.toString().padStart(3, '0');
+
+  message += `\x1b[48;5;${i}m #${code} \x1b[0m`;
+
+  if (i < 16) {
+    if ((i + 1) % 8 === 0) {
+      message += '\n';
+    }
+  } else if (i < 255) {
+    if ((i - 15) % 6 === 0) {
+      message += '\n';
+    }
+  }
+}
+
+process.stdout.write(message);
+process.stdout.write('\n');
+process.stdout.write(ansiToHTML(message));
