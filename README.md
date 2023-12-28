@@ -1,7 +1,7 @@
 # ansi
 
 <!-- prettier-ignore -->
-> A pure JavaScript ANSI parser library.
+> A pure JavaScript ANSI style parser library.
 >
 > [![NPM Version][npm-image]][npm-url]
 > [![Download Status][download-image]][npm-url]
