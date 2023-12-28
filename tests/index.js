@@ -128,4 +128,36 @@ for (let i = 0; i <= 255; i++) {
 }
 
 console.log(message);
-console.log(ansiToHTML(message));
+
+const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>xterm</title>
+  <style>
+    body,
+    pre {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      color: #cccccc;
+      background: #0c0c0c;
+    }
+
+    pre span {
+      line-height: 1.6;
+      display: inline-flex;
+    }
+  </style>
+</head>
+<body>
+  <pre>${ansiToHTML(message)}</pre>
+</body>
+</html>
+`;
+
+console.log(html);
