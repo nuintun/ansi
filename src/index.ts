@@ -3,8 +3,8 @@
  */
 
 import { TokenType } from './enum';
-import { COLORS256_FIXED, getThemeColor, toUint8 } from './utils';
 import { CSI_RE, OSC_RE, OSC_ST_RE } from './regexp';
+import { COLORS256_FIXED, getThemeColor, toUint8 } from './utils';
 import { AnsiBlock, AnsiColor, AnsiStyle, AnsiToken, BlockToken, Theme } from './interface';
 
 export type { AnsiBlock, AnsiColor, AnsiStyle, Theme };
