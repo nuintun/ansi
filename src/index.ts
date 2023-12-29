@@ -3,7 +3,7 @@
  */
 
 import { TokenType } from './enum';
-import { getThemeColor, toUint8 } from './utils';
+import { COLORS256_FIXED, getThemeColor, toUint8 } from './utils';
 import { CSI_RE, OSC_RE, OSC_ST_RE } from './regexp';
 import { AnsiBlock, AnsiColor, AnsiStyle, AnsiToken, BlockToken, Theme } from './interface';
 
@@ -88,24 +88,8 @@ export default class Ansi {
       }
     }
 
-    // Index 16..231 : RGB 6x6x6
-    // https://gist.github.com/jasonm23/2868981#file-xterm-256color-yaml
-    const levels = [0, 95, 135, 175, 215, 255];
-
-    for (let r = 0; r < 6; ++r) {
-      for (let g = 0; g < 6; ++g) {
-        for (let b = 0; b < 6; ++b) {
-          colors256.push([levels[r], levels[g], levels[b]]);
-        }
-      }
-    }
-
-    // Index 232..255 : Grayscale
-    let grayscale = 8;
-
-    for (let i = 0; i < 24; ++i, grayscale += 10) {
-      colors256.push([grayscale, grayscale, grayscale]);
-    }
+    // Index 16..255 : Ansi-Colors
+    colors256.push(...COLORS256_FIXED);
 
     // Init ANSI colors
     this.#colors16 = colors16;
