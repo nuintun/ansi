@@ -38,11 +38,11 @@ export default function rollup(esnext) {
       chunkFileNames: `[name].${esnext ? 'js' : 'cjs'}`
     },
     plugins: [typescript(), treeShake()],
+    external: Object.keys(pkg.dependencies),
     onwarn(error, warn) {
       if (error.code !== 'CIRCULAR_DEPENDENCY') {
         warn(error);
       }
-    },
-    external: Object.keys(pkg.dependencies)
+    }
   };
 }
