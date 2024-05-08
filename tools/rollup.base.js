@@ -2,8 +2,8 @@
  * @module rollup.base
  */
 
-import { createRequire } from 'module';
 import treeShake from './plugins/tree-shake.js';
+import { isBuiltin, createRequire } from 'module';
 import typescript from '@rollup/plugin-typescript';
 
 const pkg = createRequire(import.meta.url)('../package.json');
@@ -38,11 +38,22 @@ export default function rollup(esnext) {
       chunkFileNames: `[name].${esnext ? 'js' : 'cjs'}`
     },
     plugins: [typescript(), treeShake()],
-    external: Object.keys(pkg.dependencies),
     onwarn(error, warn) {
       if (error.code !== 'CIRCULAR_DEPENDENCY') {
         warn(error);
       }
+    },
+    external(source) {
+      const { dependencies = {}, peerDependencies = {} } = pkg;
+
+      return (
+        // Built-in modules
+        isBuiltin(source) ||
+        // Dependencies modules
+        Reflect.has(dependencies, source) ||
+        // Peer dependencies modules
+        Reflect.has(peerDependencies, source)
+      );
     }
   };
 }
