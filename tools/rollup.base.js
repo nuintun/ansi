@@ -43,6 +43,6 @@ export default function rollup(esnext) {
         warn(error);
       }
     },
-    external: ['tslib', 'react', 'react/jsx-runtime', 'react/jsx-dev-runtime']
+    external: Object.keys(pkg.dependencies)
   };
 }
