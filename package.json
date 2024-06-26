@@ -40,9 +40,6 @@
     "url": "https://github.com/nuintun/ansi/issues"
   },
   "homepage": "https://github.com/nuintun/ansi#readme",
-  "dependencies": {
-    "tslib": "^2.6.3"
-  },
   "scripts": {
     "test": "node tests",
     "lint": "tsc --noEmit",
@@ -54,6 +51,9 @@
     "build": "npm run clean && npm run build:main && npm run format",
     "build:main": "npm run build:cjs && npm run build:esm && npm run build:types",
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir types && node tools/fix-types.js"
+  },
+  "dependencies": {
+    "tslib": "^2.6.3"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
