@@ -1,6 +1,6 @@
 {
   "name": "@nuintun/ansi",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A pure JavaScript ANSI style parser library.",
   "type": "module",
   "sideEffects": false,
@@ -53,15 +53,15 @@
     "build:types": "tsc --declaration --emitDeclarationOnly --declarationDir types && node tools/fix-types.js"
   },
   "dependencies": {
-    "tslib": "^2.6.3"
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^11.1.6",
-    "magic-string": "^0.30.10",
+    "magic-string": "^0.30.11",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
-    "rollup": "^4.18.1",
+    "rollup": "^4.21.2",
     "tsc-alias": "^1.8.10",
-    "typescript": "^5.5.3"
+    "typescript": "^5.5.4"
   }
 }
