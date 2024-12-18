@@ -90,7 +90,7 @@ export class Ansi {
 ### Usage
 
 ```ts
-import Ansi, { AnsiBlock, Theme } from '@nuintun/ansi';
+import { Ansi, AnsiBlock, Theme } from '@nuintun/ansi';
 
 function escapeHTML(text: string): string {
   return text.replace(/[&<>"']/gm, match => {
