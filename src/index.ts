@@ -9,7 +9,7 @@ import { AnsiBlock, AnsiColor, AnsiStyle, AnsiToken, BlockToken, Theme } from '.
 
 export type { AnsiBlock, AnsiColor, AnsiStyle, Theme };
 
-export default class Ansi {
+export class Ansi {
   #buffer = '';
 
   #style: AnsiStyle = {

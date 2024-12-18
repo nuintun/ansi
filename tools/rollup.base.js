@@ -9,9 +9,9 @@ import { createRequire, isBuiltin } from 'node:module';
 const pkg = createRequire(import.meta.url)('../package.json');
 
 const externals = [
-  // Dependencies
+  // Dependencies.
   ...Object.keys(pkg.dependencies || {}),
-  // Peer dependencies
+  // Peer dependencies.
   ...Object.keys(pkg.peerDependencies || {})
 ];
 
@@ -27,7 +27,7 @@ const banner = `/**
 
 /**
  * @function rollup
- * @param {boolean} [esnext]
+ * @param {boolean} [esnext] Is esnext.
  * @return {import('rollup').RollupOptions}
  */
 export default function rollup(esnext) {
@@ -36,15 +36,20 @@ export default function rollup(esnext) {
     output: {
       banner,
       interop: 'auto',
-      exports: 'auto',
-      esModule: false,
       preserveModules: true,
       dir: esnext ? 'esm' : 'cjs',
       format: esnext ? 'esm' : 'cjs',
-      entryFileNames: `[name].${esnext ? 'js' : 'cjs'}`,
-      chunkFileNames: `[name].${esnext ? 'js' : 'cjs'}`
+      generatedCode: { constBindings: true },
+      chunkFileNames: `[name].${esnext ? 'js' : 'cjs'}`,
+      entryFileNames: `[name].${esnext ? 'js' : 'cjs'}`
     },
-    plugins: [typescript(), treeShake()],
+    plugins: [
+      typescript({
+        declaration: true,
+        declarationDir: esnext ? 'esm' : 'cjs'
+      }),
+      treeShake()
+    ],
     onwarn(error, warn) {
       if (error.code !== 'CIRCULAR_DEPENDENCY') {
         warn(error);

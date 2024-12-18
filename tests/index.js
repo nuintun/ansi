@@ -1,4 +1,8 @@
-import Ansi from '@nuintun/ansi';
+/**
+ * @module index
+ */
+
+import { Ansi } from '@nuintun/ansi';
 
 function escapeHTML(text) {
   return text.replace(/[&<>"']/gm, match => {
