@@ -215,4 +215,4 @@ export function ansiToHTML(text: string, theme?: Theme): string {
 [side-effect-image]: https://img.shields.io/badge/side--effect-free-brightgreen?style=flat-square
 [bundle-phobia-url]: https://bundlephobia.com/result?p=@nuintun/ansi
 [license-image]: https://img.shields.io/github/license/nuintun/ansi?style=flat-square
-[license-url]: https://github.com/nuintun/ansi/blob/master/LICENSE
+[license-url]: https://github.com/nuintun/ansi/blob/main/LICENSE
