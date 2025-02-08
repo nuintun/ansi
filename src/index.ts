@@ -26,8 +26,8 @@ export class Ansi {
     strikethrough: false
   };
 
+  #colors16: AnsiColor[];
   #colors256: AnsiColor[];
-  #colors16: AnsiColor[][];
 
   /**
    * @public
@@ -36,60 +36,55 @@ export class Ansi {
    * @param theme The theme object containing color values.
    */
   constructor(theme: Theme = {}) {
+    // Colors 16 bit
     // https://gist.github.com/jasonm23/2868981
-    const colors16: AnsiColor[][] = [
-      // Colors 16 bit
-      [
-        // Black
-        getThemeColor([0, 0, 0], theme.black),
-        // Red
-        getThemeColor([128, 0, 0], theme.red),
-        // Green
-        getThemeColor([0, 128, 0], theme.green),
-        // Yellow
-        getThemeColor([128, 128, 0], theme.yellow),
-        // Blue
-        getThemeColor([0, 0, 128], theme.blue),
-        // Magenta
-        getThemeColor([128, 0, 128], theme.magenta),
-        // Cyan
-        getThemeColor([0, 128, 128], theme.cyan),
-        // White
-        getThemeColor([192, 192, 192], theme.white)
-      ],
-      // Bright colors
-      [
-        // Bright Black
-        getThemeColor([128, 128, 128], theme.brightBlack),
-        // Bright Red
-        getThemeColor([255, 0, 0], theme.brightRed),
-        // Bright Green
-        getThemeColor([0, 255, 0], theme.brightGreen),
-        // Bright Yellow
-        getThemeColor([255, 255, 0], theme.brightYellow),
-        // Bright Blue
-        getThemeColor([0, 0, 255], theme.brightBlue),
-        // Bright Magenta
-        getThemeColor([255, 0, 255], theme.brightMagenta),
-        // Bright Cyan
-        getThemeColor([0, 255, 255], theme.brightCyan),
-        // Bright White
-        getThemeColor([255, 255, 255], theme.brightWhite)
-      ]
+    const colors16: AnsiColor[] = [
+      // Black
+      getThemeColor([0, 0, 0], theme.black),
+      // Red
+      getThemeColor([128, 0, 0], theme.red),
+      // Green
+      getThemeColor([0, 128, 0], theme.green),
+      // Yellow
+      getThemeColor([128, 128, 0], theme.yellow),
+      // Blue
+      getThemeColor([0, 0, 128], theme.blue),
+      // Magenta
+      getThemeColor([128, 0, 128], theme.magenta),
+      // Cyan
+      getThemeColor([0, 128, 128], theme.cyan),
+      // White
+      getThemeColor([192, 192, 192], theme.white),
+      // Bright Black
+      getThemeColor([128, 128, 128], theme.brightBlack),
+      // Bright Red
+      getThemeColor([255, 0, 0], theme.brightRed),
+      // Bright Green
+      getThemeColor([0, 255, 0], theme.brightGreen),
+      // Bright Yellow
+      getThemeColor([255, 255, 0], theme.brightYellow),
+      // Bright Blue
+      getThemeColor([0, 0, 255], theme.brightBlue),
+      // Bright Magenta
+      getThemeColor([255, 0, 255], theme.brightMagenta),
+      // Bright Cyan
+      getThemeColor([0, 255, 255], theme.brightCyan),
+      // Bright White
+      getThemeColor([255, 255, 255], theme.brightWhite)
     ];
 
+    // User defined colors 256 bit
+    const themeColors256 = theme.colors256 ?? [];
+
     // Colors 256 bit
-    const colors256: AnsiColor[] = [];
-
-    // Index 0..15 : Ansi-Colors
-    for (const palette of colors16) {
-      for (const color of palette) {
-        colors256.push(color);
-      }
-    }
-
-    // Index 16..255 : Ansi-Colors
-    colors256.push(...COLORS256_FIXED);
+    const colors256: AnsiColor[] = [
+      // Index 0..15 : Ansi-Colors
+      ...colors16,
+      // Index 16..255 : Ansi-Colors
+      ...COLORS256_FIXED
+    ].map((color, index) => {
+      return getThemeColor(color, themeColors256[index]);
+    });
 
     // Init ANSI colors
     this.#colors16 = colors16;
@@ -479,13 +474,17 @@ export class Ansi {
           break;
         default:
           if (code >= 30 && code < 38) {
-            style.color = colors16[0][code - 30];
+            // The color index offset starts at 0: code - 30 + 0
+            style.color = colors16[code - 30];
           } else if (code >= 40 && code < 48) {
-            style.background = colors16[0][code - 40];
+            // The color index offset starts at 0: code - 40 + 0
+            style.background = colors16[code - 40];
           } else if (code >= 90 && code < 98) {
-            style.color = colors16[1][code - 90];
+            // The bright color index offset starts at 8: code - 90 + 8
+            style.color = colors16[code - 82];
           } else if (code >= 100 && code < 108) {
-            style.background = colors16[1][code - 100];
+            // The bright color index offset starts at 8: code - 100 + 8
+            style.background = colors16[code - 92];
           }
           break;
       }

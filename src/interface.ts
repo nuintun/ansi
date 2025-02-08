@@ -104,4 +104,5 @@ export interface Theme {
   brightWhite?: AnsiColor;
   brightYellow?: AnsiColor;
   brightMagenta?: AnsiColor;
+  colors256?: AnsiColor[];
 }
