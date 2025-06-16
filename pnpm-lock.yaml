@@ -16,8 +16,8 @@ importers:
         specifier: ^12.1.2
         version: 12.1.2(rollup@4.43.0)(tslib@2.8.1)(typescript@5.8.3)
       dts-paths:
-        specifier: ^1.1.7
-        version: 1.1.7(typescript@5.8.3)
+        specifier: ^1.1.8
+        version: 1.1.8(typescript@5.8.3)
       magic-string:
         specifier: ^0.30.17
         version: 0.30.17
@@ -228,8 +228,8 @@ packages:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
 
-  dts-paths@1.1.7:
-    resolution: {integrity: sha512-HSvQCeQ5Dc9rbBO2yMBBN9blsBCeyBZs+atfpEu/xqB7LmHGy4EGaZZk8b3e7PKC9nHoI2+hZk4LfesJEVy+5Q==}
+  dts-paths@1.1.8:
+    resolution: {integrity: sha512-304b/kjvtncv6GbAuxRU4WGUKqu/LhVdNx+ffTgk7oGG5WDmKEAVXfXiX1ecudthWc8EdjEuvAdSejGM6b0wlQ==}
     peerDependencies:
       typescript: ^5.0.0
 
@@ -592,7 +592,7 @@ snapshots:
       shebang-command: 2.0.0
       which: 2.0.2
 
-  dts-paths@1.1.7(typescript@5.8.3):
+  dts-paths@1.1.8(typescript@5.8.3):
     dependencies:
       ts-morph: 26.0.0
       tslib: 2.8.1
