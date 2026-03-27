@@ -3,8 +3,10 @@
  */
 
 import { Ansi } from '@nuintun/ansi';
+import type { AnsiBlock, Theme } from '@nuintun/ansi';
 
-function escapeHTML(text) {
+// HTML 转义函数
+function escapeHTML(text: string): string {
   return text.replace(/[&<>"']/gm, match => {
     switch (match) {
       case '&':
@@ -23,9 +25,10 @@ function escapeHTML(text) {
   });
 }
 
-function blockToHTML({ style, value, url }) {
-  const styles = [];
-  const textDecorations = [];
+// 块转 HTML 函数
+function blockToHTML({ style, value, url }: AnsiBlock): string {
+  const styles: string[] = [];
+  const textDecorations: string[] = [];
 
   if (style.dim) {
     styles.push(`opacity: 0.5`);
@@ -97,22 +100,24 @@ function blockToHTML({ style, value, url }) {
   return `<a style=${inlineStyle} href=${href} target="_blank">${escapedValue}</a>`;
 }
 
-export function ansiToHTML(text, theme) {
+// ANSI 转 HTML 主函数
+export function ansiToHTML(text: string, theme?: Theme): string {
   let html = '';
 
   const ansi = new Ansi(theme);
 
-  ansi.write(text, block => {
+  ansi.write(text, (block: AnsiBlock) => {
     html += blockToHTML(block);
   });
 
-  ansi.flush(block => {
+  ansi.flush((block: AnsiBlock) => {
     html += blockToHTML(block);
   });
 
   return html;
 }
 
+// 生成测试消息
 let message = '';
 
 for (let i = 0; i <= 255; i++) {
@@ -133,6 +138,7 @@ for (let i = 0; i <= 255; i++) {
 
 console.log(message);
 
+// 生成 HTML 模板
 const html = `
 <!DOCTYPE html>
 <html lang="en">
