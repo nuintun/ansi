@@ -4,8 +4,6 @@
   "description": "A pure JavaScript ANSI style parser library.",
   "type": "module",
   "sideEffects": false,
-  "main": "cjs/index.cjs",
-  "module": "esm/index.js",
   "exports": {
     ".": {
       "import": "./esm/index.js",
